@@ -1,3 +1,5 @@
 # PHAssetsPicker
 
-A description of this package.
+`PHPickerViewController` for SwiftUI returning `PHAsset`s.
+
+*This repository is not actively maintained.*
