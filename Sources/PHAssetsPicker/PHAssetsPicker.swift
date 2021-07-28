@@ -15,10 +15,12 @@ import PhotosUI
 @available(watchOS, unavailable)
 public struct PHAssetsPicker: UIViewControllerRepresentable {
 	
-	let config: PHPickerConfiguration
-	let onPick: (PHFetchResult<PHAsset>) -> Void
+	public typealias Callback = ([PHPickerResult]) -> Void
 	
-	public init(config: PHPickerConfiguration, onPick: @escaping (PHFetchResult<PHAsset>) -> Void) {
+	private let config: PHPickerConfiguration
+	private let onPick: Callback
+	
+	public init(config: PHPickerConfiguration, onPick: @escaping Callback) {
 		self.config = config
 		self.onPick = onPick
 	}
@@ -27,7 +29,7 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 		preferredAssetRepresentationMode: PHPickerConfiguration.AssetRepresentationMode = .automatic,
 		selectionLimit: Int = 1,
 		filter: PHPickerFilter? = nil,
-		onPick: @escaping (PHFetchResult<PHAsset>) -> Void
+		onPick: @escaping Callback
 	) {
 		var config = PHPickerConfiguration(photoLibrary: .shared())
 		config.preferredAssetRepresentationMode = preferredAssetRepresentationMode
@@ -42,7 +44,7 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 		selection: PHPickerConfiguration.Selection = .default,
 		selectionLimit: Int = 1,
 		filter: PHPickerFilter? = nil,
-		onPick: @escaping (PHFetchResult<PHAsset>) -> Void
+		onPick: @escaping Callback
 	) {
 		var config = PHPickerConfiguration(photoLibrary: .shared())
 		config.preferredAssetRepresentationMode = preferredAssetRepresentationMode
@@ -73,11 +75,8 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 		}
 		
 		public func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-			let assetIdentifiers = results.compactMap(\.assetIdentifier)
-			let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
-			
 			DispatchQueue.main.async {
-				self.parent.onPick(assetResults)
+				self.parent.onPick(results)
 			}
 		}
 		
@@ -100,7 +99,10 @@ struct PHAssetsPicker_Previews: PreviewProvider {
 			}
 		}
 		.sheet(isPresented: .constant(true)) {
-			PHAssetsPicker(selection: .ordered) { assetResults in
+			PHAssetsPicker(selection: .ordered) { results in
+				let assetIdentifiers = results.compactMap(\.assetIdentifier)
+				let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
+				
 				// Read images metadata
 //				for i in 0..<assetResults.count {
 //					let asset = assetResults[i]
