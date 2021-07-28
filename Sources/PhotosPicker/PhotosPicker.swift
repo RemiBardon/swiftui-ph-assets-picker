@@ -1,6 +1,6 @@
 //
-//  PHAssetsPicker.swift
-//  PHAssetsPicker
+//  PhotosPicker.swift
+//  PhotosPicker
 //
 //  Created by Rémi Bardon on 20/07/2021.
 //
@@ -13,7 +13,7 @@ import PhotosUI
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-public struct PHAssetsPicker: UIViewControllerRepresentable {
+public struct PhotosPicker: UIViewControllerRepresentable {
 	
 	public typealias Callback = ([PHPickerResult]) -> Void
 	
@@ -68,9 +68,9 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 	
 	public class Coordinator: PHPickerViewControllerDelegate {
 		
-		private let parent: PHAssetsPicker
+		private let parent: PhotosPicker
 		
-		init(parent: PHAssetsPicker) {
+		init(parent: PhotosPicker) {
 			self.parent = parent
 		}
 		
@@ -88,7 +88,7 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 @available(macOS, unavailable)
 @available(tvOS, unavailable)
 @available(watchOS, unavailable)
-struct PHAssetsPicker_Previews: PreviewProvider {
+struct PhotosPicker_Previews: PreviewProvider {
 	
 	static private var showingSheet: State<Bool> = State(initialValue: false)
 	
@@ -99,7 +99,7 @@ struct PHAssetsPicker_Previews: PreviewProvider {
 			}
 		}
 		.sheet(isPresented: .constant(true)) {
-			PHAssetsPicker(selection: .ordered) { results in
+			PhotosPicker(selection: .ordered) { results in
 				let assetIdentifiers = results.compactMap(\.assetIdentifier)
 				let assetResults = PHAsset.fetchAssets(withLocalIdentifiers: assetIdentifiers, options: nil)
 				

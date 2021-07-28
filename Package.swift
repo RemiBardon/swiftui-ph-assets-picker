@@ -4,12 +4,12 @@
 import PackageDescription
 
 let package = Package(
-	name: "PHAssetsPicker",
+	name: "PhotosPicker",
 	platforms: [.iOS(.v14)],
 	products: [
-		.library(name: "PHAssetsPicker", targets: ["PHAssetsPicker"]),
+		.library(name: "PhotosPicker", targets: ["PhotosPicker"]),
 	],
 	targets: [
-		.target(name: "PHAssetsPicker"),
+		.target(name: "PhotosPicker"),
 	]
 )
