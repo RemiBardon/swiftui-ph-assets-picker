@@ -25,7 +25,7 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 	
 	public init(
 		preferredAssetRepresentationMode: PHPickerConfiguration.AssetRepresentationMode = .automatic,
-		selectionLimit: Int = 0,
+		selectionLimit: Int = 1,
 		filter: PHPickerFilter? = nil,
 		onPick: @escaping (PHFetchResult<PHAsset>) -> Void
 	) {
@@ -40,7 +40,7 @@ public struct PHAssetsPicker: UIViewControllerRepresentable {
 	public init(
 		preferredAssetRepresentationMode: PHPickerConfiguration.AssetRepresentationMode = .automatic,
 		selection: PHPickerConfiguration.Selection = .default,
-		selectionLimit: Int = 0,
+		selectionLimit: Int = 1,
 		filter: PHPickerFilter? = nil,
 		onPick: @escaping (PHFetchResult<PHAsset>) -> Void
 	) {
